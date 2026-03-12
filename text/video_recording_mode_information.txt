@@ -1,0 +1,13 @@
+You have selected Video Recording Mode.
+
+In this mode, the application will analyse a previously recorded video file instead of using a live webcam feed. The system processes the video frame by frame using MediaPipe face landmark detection to identify key facial features and estimate the orientation of the user’s head relative to the screen.
+
+To achieve the most reliable results, please ensure that the video meets the following conditions:
+• The face of the subject is clearly visible throughout the recording
+• The video contains only one visible face
+• The lighting is sufficient for facial features to be detected
+• The face remains mostly within the frame during the recording
+
+The selected video will be processed locally on your device and will not be uploaded, transmitted, or stored by the application.
+
+Select a video file and press Launch to begin the analysis.

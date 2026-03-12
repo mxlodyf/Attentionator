@@ -1,0 +1,7 @@
+Attentionator is an experimental application that analyses a user’s facial orientation using computer vision techniques to estimate whether they are paying attention to their screen. The system uses MediaPipe face landmark detection to track key facial features and determine the direction of the user’s head and gaze relative to the computer.
+
+This program was developed as part of a university assignment and is intended solely for educational and demonstration purposes. It is not designed to be used for surveillance, monitoring, or any form of real-world behavioural assessment. The attention estimates produced by this system are approximate and may not always be accurate.
+
+If you choose to use the live webcam mode, the application will temporarily access your camera to analyse facial landmarks in real time. All processing is performed locally on your device, and no video or facial data is stored or transmitted.
+
+By continuing, you acknowledge that this system is a prototype created for academic purposes and that its results should not be interpreted as definitive measures of attention.

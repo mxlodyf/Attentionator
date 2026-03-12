@@ -1,0 +1,13 @@
+You have selected Live Webcam Mode.
+
+In this mode, the application will access your webcam and analyse video frames in real time using MediaPipe face landmark detection. The system identifies facial landmarks and estimates the orientation of your head to determine whether you appear to be looking toward the screen.
+
+Before continuing, please ensure the following:
+• Your face is clearly visible to the webcam
+• You are in a reasonably well-lit environment
+• Only one face is visible in the camera frame
+• Your camera is positioned so that your face is roughly centred on the screen
+
+During analysis, the application will process video frames locally to estimate attention. The webcam feed is used only for real-time analysis and is not recorded, saved, or transmitted.
+
+Press Launch when you are ready to begin the live analysis.
