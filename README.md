@@ -9,3 +9,11 @@
 - [Contributions](#contributions)
 - [Screenshots](#screenshots)
 - [License](#license)
+
+To Install
+
+```shell
+pip install -r requirements.txt
+```
+
+Done
