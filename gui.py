@@ -47,6 +47,8 @@ class BaseWindow:
         )
         self.window.resizable(False, False)
 
+# LaunchWindow
+# Responsible for displaying the initial launch window where users can select between live webcam mode and video recording mode.
 class LaunchWindow(BaseWindow):
 
     def __init__(self):
@@ -125,12 +127,15 @@ class LaunchWindow(BaseWindow):
     def show_selection_error(self):
         messagebox.showerror("Error", "Please select an exercise from the drop down menu.")
 
+# VideoModeInformationWindow
+# Responsible for displaying information about the selected video mode and allowing users to input a video path if they selected video recording mode. It also contains a launch button that users can click to proceed to the analysis phase after they have read the information and inputted a video path if necessary.
 class VideoModeInformationWindow(BaseWindow):
 
     def __init__(self, mode=VideoMode.LIVE):
         super().__init__()
         self.video_mode = mode
         self.video_path = None
+        self.video_path_input_field = None
         self.display(mode)
 
     def display(self, mode):
@@ -223,118 +228,8 @@ class VideoModeInformationWindow(BaseWindow):
     def handle_launch_button_click(self):
         self.set_video_path()
         self.window.destroy()
-    
-class VideoRecordingAnalysisWindow(BaseWindow):
 
-    def __init__(self, mode=VideoMode.LIVE, video_path=None):
-        super().__init__()
-        self.window.geometry("1000x500")
-        self.canvas.config(height=500, width=1000)
-        self.images = {
-            "cross": relative_to_assets("cross.png"),
-            "exclamation_mark": relative_to_assets("exclamation_mark.png"),
-            "check_mark": relative_to_assets("check_mark.png")
-        }
-        self.text = {}
-        # Label to display the original video.
-        self.original_video_label = Label(self.window)
-        self.original_video_label.place(x=0, y=0)
-        # Label to display the annotated video.
-        self.processed_video_label = Label(self.window)
-        self.processed_video_label.place(x=(959 - 651), y=0)
-
-        self.analysis = None
-
-    def display(self, analysis):
-        self.analysis = analysis
-        self.canvas.place(x = 0, y = 0)
-        
-        background_image = PhotoImage(file=relative_to_assets("grey_rectangle.png"))
-        self.canvas.create_image(
-            651 + (308 / 2),  
-            170,
-            image=background_image,
-            anchor="center"
-        )
-    
-        # Ensure the image is not garbage collected.
-        self.canvas.background_image = background_image
-
-        # Create the custom button icons.
-        replay_icon = PhotoImage(file=relative_to_assets("replay_button.png"))
-        change_icon = PhotoImage(file=relative_to_assets("change_button.png"))
-        exit_icon = PhotoImage(file=relative_to_assets("exit_button.png"))
-
-        # Replay button.
-        replay_label = Label(self.window, image=replay_icon, bg="#F3F3F3")
-        replay_label.place(x=650, y=420, width=100, height=50)
-        replay_label.bind("<Button-1>", lambda e: self.replay_video())
-
-        # Change button.
-        change_label = Label(self.window, image=change_icon, bg="#F3F3F3")
-        chane_label.place(x=760, y=420, width=100, height=50)
-        change_label.bind("<Button-1>", lambda e: self.change_video())
-
-        # Exit button.
-        exit_label = Label(self.window, image=exit_icon, bg="#F3F3F3")
-        exit_label.place(x=870, y=420, width=100, height=50)
-        exit_label.bind("<Button-1>", lambda e: self.exit_app())
-
-        # Ensure the images are not garbage collected.
-        replay_label.image = replay_icon
-        change_label.image = change_icon
-        exit_label.image = exit_icon
-
-        self.window.resizable(False, False)
-        self.window.mainloop()
-                
-    # Replay the video if the 'Replay' button is clicked.
-    def replay_video(self):
-        if not self.analysis.is_playing:  # Check if a video is already playing.
-            self.analysis.is_playing = True
-            threading.Thread(target=self.analysis.process_video, args=(self,), daemon=True).start()
-            self.display(self.analysis)
-
-    def exit_app(self):
-        sys.exit(0)
-
-
-    def change_video(self):
-        self.window.destroy()
-        import main
-        main.main()
-
-    def update_video_frame(self, frame, label):
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        height, width = frame_rgb.shape[:2]
-        max_height = 500
-        max_width = 959 - 651
-        scale = max_height / height
-        new_width = int(width * scale)
-        new_height = int(height * scale)
-        frame_resized = cv2.resize(frame_rgb, (new_width, new_height))
-        # Create a new image with a white background (change the color here)
-        canvas_image = np.ones((max_height, max_width, 3), dtype=np.uint8) * 255  # 255 for white background
-        # Crop the frame evenly from left and right if it exceeds 'max_width'.
-        if new_width > max_width:
-            excess_width = new_width - max_width
-            # Calculate cropping boundaries.
-            start_x = excess_width // 2
-            end_x = start_x + max_width
-            frame_cropped = frame_resized[:, start_x:end_x]
-        else:
-            frame_cropped = frame_resized
-        image_pil = Image.fromarray(frame_cropped)
-        image_tk = ImageTk.PhotoImage(image=image_pil)
-        if label == 'original':
-            self.original_video_label.configure(image=image_tk)
-            # Reference to avoid garbage collection.
-            self.original_video_label.image = image_tk 
-        elif label == 'processed':
-            self.processed_video_label.configure(image=image_tk)
-            self.processed_video_label.image = image_tk
-        self.window.update_idletasks()
-
+# Helper function to load text from a file in the text directory.
 def load_text(filename: str) -> str:
     with open(relative_to_text(filename), "r") as f:
         return f.read()
