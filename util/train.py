@@ -6,7 +6,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 import joblib
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PROCESSED_DIR = os.path.join(BASE_DIR, "..", "data", "processed")
+PROCESSED_DIR = os.path.join(BASE_DIR, "..", "data", "processed_webcam")
 MODEL_DIR = os.path.join(BASE_DIR, "..", "model")
 
 def load_dataset():

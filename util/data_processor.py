@@ -88,6 +88,6 @@ def process_dataset(input_root, output_root):
         print(f"Saved {len(df)} rows -> {out_path}")
 
 process_dataset(
-    input_root=os.path.join(BASE_DIR, "..", "data", "abstracted"),
-    output_root=os.path.join(BASE_DIR, "..", "data", "processed")
+    input_root=os.path.join(BASE_DIR, "..", "data", "webcam"),
+    output_root=os.path.join(BASE_DIR, "..", "data", "processed_webcam")
 )
