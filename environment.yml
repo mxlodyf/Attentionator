@@ -6,3 +6,6 @@ dependencies:
   - python=3.10
   - pandas
   - seaborn
+  - pip
+  - pip:
+      - mediapipe==0.10.9
