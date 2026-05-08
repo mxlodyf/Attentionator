@@ -1,8 +1,8 @@
 name: ICT304
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - python=3.10
   - pandas
   - seaborn
-prefix: /opt/anaconda3/envs/ICT304
