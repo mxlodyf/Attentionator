@@ -22,11 +22,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "model")
 SESSION_DIR = os.path.join(BASE_DIR, "sessions")
 
-# --- Load Model ---
-model = joblib.load(os.path.join(MODEL_DIR, "random_forest.joblib"))
-with open(os.path.join(MODEL_DIR, "feature_names.txt"), "r") as f:
-    feature_names = [line.strip() for line in f.readlines()]
-
 # --- Landmark Config ---
 SELECTED_LANDMARKS = {
     469: "left_iris_1",
@@ -118,10 +113,22 @@ def save_session(session_data):
 
 
 def main():
+
     model_path = os.path.join(BASE_DIR, "face_landmarker.task")
     if not os.path.exists(model_path):
         print(f"ERROR: face_landmarker.task missing!")
         return
+
+    # Load model here instead of at import time
+    global model, feature_names
+    model = joblib.load(os.path.join(MODEL_DIR, "random_forest.joblib"))
+    with open(os.path.join(MODEL_DIR, "feature_names.txt"), "r") as f:
+        feature_names = [line.strip() for line in f.readlines()]
+        
+    # model_path = os.path.join(BASE_DIR, "face_landmarker.task")
+    # if not os.path.exists(model_path):
+    #     print(f"ERROR: face_landmarker.task missing!")
+    #     return
 
     options = FaceLandmarkerOptions(
         base_options=BaseOptions(model_asset_path=model_path),

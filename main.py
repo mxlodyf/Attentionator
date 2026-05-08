@@ -8,8 +8,15 @@ import gui
 import live_analysis
 from tkinter import messagebox
 from enums import VideoMode
+import calibration
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def main():
+    # Run calibration if no model exists yet
+    model_exists = os.path.exists(os.path.join(BASE_DIR, "model", "random_forest.joblib"))
+    if not model_exists:
+        calibration.run()
     # Display the launch window and get the selected video mode
     current_session = session.Session()
     launch_window = gui.LaunchWindow()
